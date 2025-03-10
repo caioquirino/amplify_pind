@@ -1,5 +1,6 @@
-# Use Node.js as base image
-FROM node:latest
+# Use Node.js as base image with build argument
+ARG NODE_VERSION=latest
+FROM node:${NODE_VERSION}
 
 VOLUME /var/lib/containers
 VOLUME /home/node/.local/share/containers
