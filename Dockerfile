@@ -1,6 +1,6 @@
 # Use Node.js as base image with build argument
-ARG NODE_VERSION=latest
-FROM node:${NODE_VERSION}
+ARG NODE_VERSION=20
+FROM --platform=$TARGETPLATFORM node:${NODE_VERSION}
 
 VOLUME /var/lib/containers
 VOLUME /home/node/.local/share/containers
@@ -17,9 +17,14 @@ RUN apt-get update && apt-get install -y \
     uidmap \
     && rm -rf /var/lib/apt/lists/*
 
-# Add Podman repository
-RUN echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/ /" > /etc/apt/sources.list.d/podman.list \
-    && curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key | apt-key add -
+# Add Podman repository based on architecture
+RUN case $(uname -m) in \
+    x86_64) ARCH="amd64" ;; \
+    aarch64) ARCH="arm64" ;; \
+    *) echo "Unsupported architecture" && exit 1 ;; \
+    esac && \
+    echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/ /" > /etc/apt/sources.list.d/podman.list && \
+    curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key | apt-key add -
 
 # Install Podman and Docker compatibility layer
 RUN apt-get update && apt-get install -y \
