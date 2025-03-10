@@ -22,7 +22,7 @@ build-node22:
 run:
 	docker run -it \
 		--privileged \
-		--user podman \
+		--user node \
 		$(IMAGE_NAME):$(IMAGE_TAG)
 
 # Run specific Node.js version
@@ -30,14 +30,14 @@ run:
 run-node20:
 	docker run -it \
 		--privileged \
-		--user podman \
+		--user node \
 		$(IMAGE_NAME):node20
 
 .PHONY: run-node22
 run-node22:
 	docker run -it \
 		--privileged \
-		--user podman \
+		--user node \
 		$(IMAGE_NAME):node22
 
 # Clean up the image
