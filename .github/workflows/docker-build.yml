@@ -1,5 +1,8 @@
 name: Build and Push Multi-arch Docker Images
 
+env:
+  LATEST_NODE_VERSION: '22'
+
 on:
   push:
     branches: [ main ]
@@ -40,4 +43,5 @@ jobs:
             NODE_VERSION=${{ matrix.node-version }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/amplify_pind:node${{ matrix.node-version }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/amplify_pind:node${{ matrix.node-version }}-${{ github.sha }} 
+            ${{ secrets.DOCKERHUB_USERNAME }}/amplify_pind:node${{ matrix.node-version }}-${{ github.sha }}
+            ${{ matrix.node-version == env.LATEST_NODE_VERSION && format('{0}/amplify_pind:latest', secrets.DOCKERHUB_USERNAME) || '' }} 
