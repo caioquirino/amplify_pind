@@ -9,15 +9,44 @@ AWS Amplify doesn't support Docker builds out of the box. This project provides 
 ## Features
 
 - Rootless Podman configuration for secure container operations
-- Node.js environment (v20) as the base image
+- Node.js environment as the base image
 - Docker API compatibility layer through Podman
 - Configurable container runtime with proper namespace isolation
 - Support for both x86_64 and arm64 architectures
+- Available as pre-built images on Docker Hub
 
 ## Prerequisites
 
 - Docker or compatible container runtime
 - AWS Amplify environment (for deployment)
+
+## Docker Hub Images
+
+The pre-built images are available on Docker Hub:
+
+```bash
+docker pull caioquirino/amplify-pind:latest
+```
+
+Available tags:
+- `latest`: Latest stable release (currently Node.js 22)
+- `node22`: Node.js v22.x based image
+- `node20`: Node.js v20.x based image (LTS)
+- `node18`: Node.js v18.x based image
+
+Each Node.js version tag is available for both x86_64 and arm64 architectures.
+
+Example using a specific Node.js version:
+```bash
+# For Node.js 22
+docker pull caioquirino/amplify-pind:node22
+
+# For Node.js 20
+docker pull caioquirino/amplify-pind:node20
+
+# For Node.js 18
+docker pull caioquirino/amplify-pind:node18
+```
 
 ## Configuration Files
 
@@ -29,14 +58,27 @@ The main configuration file for Podman containers, setting up:
 - Host UTS namespace
 - Host cgroup namespace
 - Disabled cgroups
-- k8s-file logging driver
-
-### podman-containers.conf
 User-specific container configuration for the node user.
 
 ## Usage
 
-1. Build the container:
+### Using Pre-built Image
+
+1. Pull the image:
+```bash
+docker pull caioquirino/amplify-pind:latest
+```
+
+2. Run the container:
+```bash
+docker run --privileged -v /var/lib/containers -v /home/node/.local/share/containers caioquirino/amplify-pind:latest
+```
+
+### Building Locally
+
+If you need to customize the image:
+
+The main configuration file for Podman containers, setting up:
 ```bash
 docker build -t amplify-pind .
 ```
@@ -50,7 +92,7 @@ docker run --privileged -v /var/lib/containers -v /home/node/.local/share/contai
 
 ### Dockerfile Highlights
 
-- Base image: Node.js (configurable version, default v20)
+- Base image: Node.js (configurable version)
 - Podman installation with Docker compatibility layer
 - Proper volume configuration for container storage
 - Rootless setup for the node user
@@ -79,7 +121,19 @@ The container requires two volume mounts:
 
 To use this in AWS Amplify:
 
-1. Reference this container in your Amplify build configuration
+1. Reference the Docker Hub image in your Amplify build configuration:
+```yaml
+version: 1
+applications:
+  - appRoot: app
+    frontend:
+      phases:
+        build:
+          commands:
+            - docker pull caioquirino/amplify-pind:latest
+            # Your build commands here
+```
+
 2. Ensure the build environment has the necessary privileges
 3. Configure your build steps to utilize the Podman/Docker compatibility layer
 
