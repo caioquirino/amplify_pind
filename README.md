@@ -121,21 +121,13 @@ The container requires two volume mounts:
 
 To use this in AWS Amplify:
 
-1. Reference the Docker Hub image in your Amplify build configuration:
-```yaml
-version: 1
-applications:
-  - appRoot: app
-    frontend:
-      phases:
-        build:
-          commands:
-            - docker pull caioquirino/amplify-pind:latest
-            # Your build commands here
-```
+1. Open AWS Amplify Console
+2. Open your Application
+3. In Hosting, navigate to the Build settings page
+4. At the Build image settings, click on Edit
+5. At the Build image section, select Custom Build Image
+6. Fill the Custom Build Image field with the appropriate image (example: caioquirino/amplify_pind:node22)
 
-2. Ensure the build environment has the necessary privileges
-3. Configure your build steps to utilize the Podman/Docker compatibility layer
 
 ## Contributing
 
