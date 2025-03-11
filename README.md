@@ -37,14 +37,14 @@ User-specific container configuration for the node user.
 ## Usage
 
 1. Build the container:
-\`\`\`bash
+```bash
 docker build -t amplify-pind .
-\`\`\`
+```
 
 2. Run the container:
-\`\`\`bash
+```bash
 docker run --privileged -v /var/lib/containers -v /home/node/.local/share/containers amplify-pind
-\`\`\`
+```
 
 ## Key Components
 
@@ -65,15 +65,15 @@ docker run --privileged -v /var/lib/containers -v /home/node/.local/share/contai
 
 ## Environment Variables
 
-- \`_CONTAINERS_USERNS_CONFIGURED\`: Container namespace configuration
-- \`BUILDAH_ISOLATION\`: Set to "chroot" for build isolation
-- \`DOCKER_HOST\`: Unix socket path for Docker API compatibility
+- `_CONTAINERS_USERNS_CONFIGURED`: Container namespace configuration
+- `BUILDAH_ISOLATION`: Set to "chroot" for build isolation
+- `DOCKER_HOST`: Unix socket path for Docker API compatibility
 
 ## Volume Mounts
 
 The container requires two volume mounts:
-- \`/var/lib/containers\`: For container storage
-- \`/home/node/.local/share/containers\`: For user-specific container data
+- `/var/lib/containers`: For container storage
+- `/home/node/.local/share/containers`: For user-specific container data
 
 ## AWS Amplify Integration
 
