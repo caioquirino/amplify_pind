@@ -6,6 +6,17 @@ A solution for running Podman inside Docker containers with Node.js, specificall
 
 AWS Amplify doesn't support Docker builds out of the box. This project provides a workaround by implementing Podman (a daemonless container engine) inside a Node.js-based Docker container. The implementation uses a rootless Podman configuration on top of a Debian-based Node.js image.
 
+## AWS Amplify Integration
+
+To use this in AWS Amplify:
+
+1. Open AWS Amplify Console
+2. Open your Application
+3. In Hosting, navigate to the Build settings page
+4. At the Build image settings, click on Edit
+5. At the Build image section, select Custom Build Image
+6. Fill the Custom Build Image field with the appropriate image (example: `caioquirino/amplify_pind:node22`)
+
 ## Features
 
 - Rootless Podman configuration for secure container operations
@@ -117,25 +128,13 @@ The container requires two volume mounts:
 - `/var/lib/containers`: For container storage
 - `/home/node/.local/share/containers`: For user-specific container data
 
-## AWS Amplify Integration
-
-To use this in AWS Amplify:
-
-1. Open AWS Amplify Console
-2. Open your Application
-3. In Hosting, navigate to the Build settings page
-4. At the Build image settings, click on Edit
-5. At the Build image section, select Custom Build Image
-6. Fill the Custom Build Image field with the appropriate image (example: caioquirino/amplify_pind:node22)
-
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit pull requests.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU General Public License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
