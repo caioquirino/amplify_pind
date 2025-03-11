@@ -31,7 +31,7 @@ docker pull caioquirino/amplify-pind:latest
 Available tags:
 - `latest`: Latest stable release (currently Node.js 22)
 - `node22`: Node.js v22.x based image
-- `node20`: Node.js v20.x based image (LTS)
+- `node20`: Node.js v20.x based image
 - `node18`: Node.js v18.x based image
 
 Each Node.js version tag is available for both x86_64 and arm64 architectures.
