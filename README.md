@@ -26,11 +26,6 @@ To use this in AWS Amplify:
 - Support for both x86_64 and arm64 architectures
 - Available as pre-built images on Docker Hub
 
-## Prerequisites
-
-- Docker or compatible container runtime
-- AWS Amplify environment (for deployment)
-
 ## Docker Hub Images
 
 The pre-built images are available on Docker Hub:
