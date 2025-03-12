@@ -29,8 +29,8 @@ RUN case $(uname -m) in \
     aarch64) ARCH="arm64" ;; \
     *) echo "Unsupported architecture" && exit 1 ;; \
     esac && \
-    echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/ /" > /etc/apt/sources.list.d/podman.list && \
-    curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key | apt-key add -
+    echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_12/ /" > /etc/apt/sources.list.d/podman.list && \
+    curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_12/Release.key | apt-key add -
 
 # Install Podman and Docker compatibility layer
 RUN apt-get update && apt-get install -y \
