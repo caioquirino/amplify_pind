@@ -1,0 +1,2 @@
+Cmnd_Alias SWAP_SETUP = /usr/bin/dd if=/dev/zero of=/swap/swapfile bs=1M count=4096 status=none, /bin/chmod 600 /swap/swapfile, /sbin/mkswap /swap/swapfile, /sbin/swapon /swap/swapfile, /sbin/swapon --show, /sbin/swapon -s
+node ALL = (root) NOPASSWD: SWAP_SETUP

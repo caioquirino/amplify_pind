@@ -25,6 +25,7 @@ To use this in AWS Amplify:
 - Configurable container runtime with proper namespace isolation
 - Support for both x86_64 and arm64 architectures
 - Available as pre-built images on Docker Hub
+- Automatic 4GB swap file creation on container runtime for improved memory management
 
 ## Docker Hub Images
 
