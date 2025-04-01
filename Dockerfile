@@ -1,6 +1,6 @@
 # Use Node.js as base image with build argument
 ARG NODE_VERSION=20
-FROM --platform=$TARGETPLATFORM node:${NODE_VERSION}
+FROM node:${NODE_VERSION}
 
 VOLUME /var/lib/containers
 VOLUME /home/node/.local/share/containers
@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN cd /tmp && \
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-  unzip awscliv2.zip && \
+  unzip -q awscliv2.zip && \
   ./aws/install && \
   rm -rf awscliv2 ./aws
 
