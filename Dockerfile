@@ -6,24 +6,6 @@ VOLUME /var/lib/containers
 VOLUME /home/node/.local/share/containers
 
 
-# Install required dependencies for Podman
-RUN apt-get update && apt-get install -y \
-  software-properties-common \
-  curl \
-  sed \
-  runc \
-  gnupg2 \
-  fuse-overlayfs \
-  uidmap \
-  sudo \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN cd /tmp && \
-  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-  unzip -q awscliv2.zip && \
-  ./aws/install && \
-  rm -rf awscliv2 ./aws
-
 # Add Podman repository based on architecture
 RUN case $(uname -m) in \
   x86_64) ARCH="amd64" ;; \
@@ -33,11 +15,26 @@ RUN case $(uname -m) in \
   echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_12/ /" > /etc/apt/sources.list.d/podman.list && \
   curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_12/Release.key | apt-key add -
 
+# Install required dependencies for Podman
 # Install Podman and Docker compatibility layer
 RUN apt-get update && apt-get install -y \
+  software-properties-common \
+  curl \
+  sed \
+  runc \
+  gnupg2 \
+  fuse-overlayfs \
+  uidmap \
+  sudo \
   podman \
   podman-docker \
   && rm -rf /var/lib/apt/lists/*
+
+RUN cd /tmp && \
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+  unzip -q awscliv2.zip && \
+  ./aws/install && \
+  rm -rf awscliv2 ./aws
 
 
 # Set up Docker socket
@@ -51,16 +48,12 @@ RUN ln -sf /var/run/podman/podman.sock /var/run/docker.sock
 
 COPY /containers.conf /etc/containers/containers.conf
 COPY /podman-containers.conf /home/node/.config/containers/containers.conf
+COPY /containers-storage.conf /etc/containers/storage.conf
 
 RUN mkdir -p /home/node/.local/share/containers && \
   chown node:node -R /home/node && \
   chmod 644 /etc/containers/containers.conf
 
-RUN cp /etc/containers/storage.conf /tmp/storage.conf && sed -e 's|^#mount_program|mount_program|g' \
-  -e '/additionalimage.*/a "/var/lib/shared",' \
-  -e 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g' \
-  /tmp/storage.conf \
-  > /etc/containers/storage.conf
 
 VOLUME /var/lib/containers
 VOLUME /home/node/.local/share/containers
@@ -86,6 +79,7 @@ RUN mkdir -p /home/node/.local/share/containers && \
 
 RUN touch /etc/containers/nodocker
 
+# Add swap for container
 COPY ./90-node-swap-perms /etc/sudoers.d/90-node-swap-perms
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
